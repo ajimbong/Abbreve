@@ -19,9 +19,10 @@ CMD ["npm", "run", "dev", "--", "--host"]
 # docker build --target dev -t abbreve .
 # docker run --name abbreve -p 3000:5173 abbreve
 
-FROM nginx
-WORKDIR /usr/share/nginx/html
-COPY --from=dev /app/dist/ .
+FROM nginx:alpine
+EXPOSE 80
+COPY --from=dev /app/dist/ /usr/share/nginx/html
+CMD ["nginx", "-g", "daemon off;"]
 # HOW TO RUN THE PRODUCTION BUILD
 # docker build -t abbreve-prod .
-# docker run -it --rm -d --name abbreve-prod -p 8080:80 abbreve-prod
+# docker run --rm -d --name abbreve -p 8080:80 abbreve-prod
